@@ -1,0 +1,170 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Order Management Platform — MVP
+# Start the entire stack: docker-compose up --build
+# ─────────────────────────────────────────────────────────────────────────────
+
+networks:
+  backend-net:
+    driver: bridge
+  frontend-net:
+    driver: bridge
+
+volumes:
+  orders-db-data:
+  users-db-data:
+  redis-data:
+
+services:
+
+  # ── Databases ───────────────────────────────────────────────────────────────
+
+  orders-db:
+    image: postgres:16-alpine
+    container_name: orders-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: orders_user
+      POSTGRES_PASSWORD: orders_pass
+      POSTGRES_DB: orders_db
+    volumes:
+      - orders-db-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orders_user -d orders_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  users-db:
+    image: postgres:16-alpine
+    container_name: users-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: users_user
+      POSTGRES_PASSWORD: users_pass
+      POSTGRES_DB: users_db
+    ports:
+      - "5433:5432"   # exposed on a different host port to avoid collision
+    volumes:
+      - users-db-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U users_user -d users_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ── Microservices ────────────────────────────────────────────────────────────
+
+  orders-service:
+    build:
+      context: ./services/orders-service
+      dockerfile: Dockerfile
+    container_name: orders-service
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://orders_user:orders_pass@orders-db:5432/orders_db
+      SECRET_KEY: orders-service-secret-key-change-in-production
+      CORS_ORIGINS: '["http://localhost:8080","http://localhost:3000"]'
+    ports:
+      - "8001:8001"
+    depends_on:
+      orders-db:
+        condition: service_healthy
+    networks:
+      - backend-net
+    volumes:
+      - ./services/orders-service:/app   # hot-reload in dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  users-service:
+    build:
+      context: ./services/users-service
+      dockerfile: Dockerfile
+    container_name: users-service
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://users_user:users_pass@users-db:5432/users_db
+      SECRET_KEY: users-service-secret-key-change-in-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      CORS_ORIGINS: '["http://localhost:8080","http://localhost:3000"]'
+    ports:
+      - "8002:8002"
+    depends_on:
+      users-db:
+        condition: service_healthy
+    networks:
+      - backend-net
+    volumes:
+      - ./services/users-service:/app   # hot-reload in dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── Frontend MFEs ────────────────────────────────────────────────────────────
+
+  shell-app:
+    build:
+      context: ./frontend/shell-app
+      dockerfile: Dockerfile
+    container_name: shell-app
+    restart: unless-stopped
+    networks:
+      - frontend-net
+    depends_on:
+      - orders-service
+      - users-service
+
+  orders-mfe:
+    build:
+      context: ./frontend/orders-mfe
+      dockerfile: Dockerfile
+    container_name: orders-mfe
+    restart: unless-stopped
+    networks:
+      - frontend-net
+
+  # ── API Gateway (Nginx) ──────────────────────────────────────────────────────
+
+  api-gateway:
+    image: nginx:alpine
+    container_name: api-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - orders-service
+      - users-service
+      - shell-app
+      - orders-mfe
+    networks:
+      - backend-net
+      - frontend-net

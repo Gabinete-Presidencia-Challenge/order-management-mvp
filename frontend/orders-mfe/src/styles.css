@@ -1,0 +1,103 @@
+/* Page layout */
+.page { padding: 28px 32px; max-width: 1200px; margin: 0 auto; }
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-size: 22px; font-weight: 600; color: #1a1a2e; margin-top: 4px; }
+.page-subtitle { font-size: 13px; color: #6c757d; margin-top: 4px; }
+
+/* Toolbar */
+.toolbar { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; gap: 12px; }
+.filter-group { display: flex; flex-direction: column; gap: 4px; }
+.filter-group label { font-size: 12px; font-weight: 500; color: #6c757d; }
+
+/* Card */
+.card { background: #fff; border-radius: 12px; border: 1px solid #e9ecef; padding: 22px 24px; }
+.card-title { font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 16px; }
+.card-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+/* Table */
+.table-wrapper { background: #fff; border-radius: 12px; border: 1px solid #e9ecef; overflow: hidden; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; background: #f8f9fa; border-bottom: 1px solid #e9ecef; }
+.table td { padding: 13px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.table tbody tr:last-child td { border-bottom: none; }
+.table tfoot td { padding: 12px 16px; border-top: 2px solid #e9ecef; }
+.table-row { cursor: pointer; transition: background 0.1s; }
+.table-row:hover { background: #f8f9fa; }
+
+/* Status select inline */
+.status-select { border: 1px solid #dee2e6; border-radius: 6px; padding: 4px 8px; font-size: 13px; background: #fff; cursor: pointer; }
+
+/* Pagination */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; }
+.pagination-info { font-size: 13px; color: #6c757d; }
+
+/* Empty & loading */
+.empty-state { text-align: center; padding: 60px 20px; }
+.empty-icon { font-size: 40px; display: block; margin-bottom: 12px; }
+.empty-state p { color: #6c757d; margin-bottom: 20px; }
+.loading-state { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 60px; color: #6c757d; }
+.spinner { width: 20px; height: 20px; border: 2px solid #dee2e6; border-top-color: #4361ee; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Alerts */
+.alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 16px; }
+.alert-error { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; }
+
+/* Buttons */
+.btn { padding: 9px 18px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: #4361ee; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #3451d1; }
+.btn-ghost { background: transparent; color: #495057; border: 1px solid #dee2e6; }
+.btn-ghost:hover:not(:disabled) { background: #f8f9fa; }
+.btn-danger-ghost { background: transparent; color: #e53e3e; border: 1px solid #fed7d7; }
+.btn-danger-ghost:hover:not(:disabled) { background: #fff5f5; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+
+/* Form elements */
+.input { width: 100%; padding: 9px 13px; border: 1.5px solid #dee2e6; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.15s; font-family: inherit; }
+.input:focus { border-color: #4361ee; }
+.textarea { resize: vertical; min-height: 80px; }
+.select { padding: 8px 12px; border: 1.5px solid #dee2e6; border-radius: 8px; font-size: 14px; background: #fff; cursor: pointer; outline: none; }
+.select:focus { border-color: #4361ee; }
+.form-group { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.form-group label { font-size: 13px; font-weight: 500; color: #495057; }
+.form-row { display: flex; gap: 16px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+
+/* Item rows */
+.item-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0f0f0; }
+.item-row:last-of-type { border-bottom: none; }
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-3 { flex: 3; }
+.remove-item-btn { flex-shrink: 0; align-self: flex-end; margin-bottom: 0; }
+
+/* Order total */
+.order-total-row { display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding-top: 16px; border-top: 2px solid #e9ecef; font-weight: 600; font-size: 15px; }
+.total-amount { color: #4361ee; font-size: 16px; font-weight: 700; }
+
+/* Detail page */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.detail-list { display: flex; flex-direction: column; gap: 12px; }
+.detail-list div { display: flex; justify-content: space-between; align-items: center; }
+.detail-list dt { font-size: 13px; color: #6c757d; }
+.detail-list dd { font-size: 14px; font-weight: 500; }
+.notes-block { margin-top: 14px; padding-top: 14px; border-top: 1px solid #f0f0f0; }
+.notes-block dt { font-size: 13px; color: #6c757d; margin-bottom: 4px; }
+.notes-block dd { font-size: 14px; color: #495057; }
+.status-control { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
+.status-control label { font-size: 12px; color: #6c757d; }
+
+/* Status history */
+.history-list { list-style: none; padding: 0; }
+.history-item { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+.history-item:last-child { border-bottom: none; }
+.history-dot { width: 10px; height: 10px; border-radius: 50%; background: #4361ee; flex-shrink: 0; margin-top: 4px; }
+.history-content { display: flex; flex-direction: column; gap: 2px; }
+.history-transition { font-size: 14px; font-weight: 500; color: #1a1a2e; }
+.history-meta { font-size: 12px; color: #6c757d; }
+
+/* Misc */
+.font-medium { font-weight: 500; }
+.text-muted { color: #6c757d; }
