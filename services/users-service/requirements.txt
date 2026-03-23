@@ -4,9 +4,8 @@ sqlalchemy==2.0.35
 psycopg2-binary==2.9.9
 alembic==1.13.3
 pydantic==2.7
-pydantic-settings==2.5.2
+pydantic-settings
 pydantic[email]==2.9.2
-passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
 pytest==8.3.3
 pytest-asyncio==0.24.0
