@@ -43,10 +43,33 @@ jobs:
         with:
           name: users-service-test-results
           path: services/users-service/test-results.xml
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: services/users-service
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff
+        run: ruff check app/
+
   build:
     name: Docker build check
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [test, lint]
 
     steps:
       - uses: actions/checkout@v4
