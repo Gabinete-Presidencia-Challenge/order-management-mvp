@@ -13,7 +13,7 @@ const USERS_API_URL =
   process.env.USERS_API_URL || "http://localhost:8080/api/users/v1";
 
 const ORDERS_MFE_URL =
-  process.env.ORDERS_MFE_URL || "http://localhost:8080/login";
+  process.env.ORDERS_MFE_URL || "http://localhost:8080";
 
 module.exports = {
   entry: "./src/index.js",
