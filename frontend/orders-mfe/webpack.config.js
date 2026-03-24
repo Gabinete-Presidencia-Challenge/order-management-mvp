@@ -1,6 +1,14 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
+const webpack = require("webpack");
 const deps = require("./package.json").dependencies;
+
+// Load .env file if present
+require("dotenv").config();
+
+const ORDERS_API_URL =
+  process.env.ORDERS_API_URL || "http://localhost:8080/api/orders/v1";
+
 
 module.exports = {
   entry: "./src/index.js",

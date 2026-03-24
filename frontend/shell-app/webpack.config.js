@@ -1,6 +1,19 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
+const webpack = require("webpack");
 const deps = require("./package.json").dependencies;
+
+// Load .env file if present
+require("dotenv").config();
+
+// Resolve API URLs with explicit fallbacks:
+//   - process.env.USERS_API_URL  (from .env or shell environment)
+//   - default: gateway URL for Docker Compose
+const USERS_API_URL =
+  process.env.USERS_API_URL || "http://localhost:8080/api/users/v1";
+
+const ORDERS_MFE_URL =
+  process.env.ORDERS_MFE_URL || "http://localhost:8080";
 
 module.exports = {
   entry: "./src/index.js",
