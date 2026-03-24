@@ -135,6 +135,9 @@ services:
       dockerfile: Dockerfile
     container_name: shell-app
     restart: unless-stopped
+    #environment:
+      #  USERS_API_URL=http://localhost:8080/api/users/v1
+      #  ORDERS_MFE_URL=http://localhost:8080
     networks:
       - frontend-net
     depends_on:
@@ -147,6 +150,8 @@ services:
       dockerfile: Dockerfile
     container_name: orders-mfe
     restart: unless-stopped
+    #environment:
+    #    ORDERS_API_URL=http://localhost:8080/api/orders/v1
     networks:
       - frontend-net
 
