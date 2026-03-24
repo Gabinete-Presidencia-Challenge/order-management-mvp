@@ -4,10 +4,8 @@ import axios from "axios";
 const AuthContext = createContext(null);
 
 //const USERS_API = "http://localhost:8080/api/users/v1";
-const USERS_API = (window.__ENV__ && window.__ENV__.USERS_API_URL) ||
-  process.env.REACT_APP_USERS_API_URL ||
-  "http://localhost:8080/api/users/v1";
-  
+const USERS_API = process.env.USERS_API_URL;
+
 
 
 export function AuthProvider({ children }) {
