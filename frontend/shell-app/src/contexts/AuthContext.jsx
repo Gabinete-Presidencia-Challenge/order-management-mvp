@@ -3,8 +3,8 @@ import axios from "axios";
 
 const AuthContext = createContext(null);
 
-//const USERS_API = "http://localhost:8080/api/users/v1";
-const USERS_API = process.env.USERS_API_URL;
+const USERS_API = "http://localhost:8080/api/v1";
+//const USERS_API = process.env.USERS_API_URL;
 
 
 

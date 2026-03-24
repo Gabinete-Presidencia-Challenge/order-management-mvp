@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/orders/v1";
+const BASE_URL = "http://localhost:8080/api/v1";
+//const BASE_URL = "http://localhost:8080/api/v1";
+//const BASE_URL = process.env.ORDERS_API_URL;
 
 function getHeaders() {
   const token = localStorage.getItem("access_token");
